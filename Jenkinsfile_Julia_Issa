@@ -1,0 +1,82 @@
+pipeline {
+    agent any
+
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 20, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
+    parameters {
+        string(name: 'PYTHON_EXE', defaultValue: 'py',
+               description: 'Python 3.11 executable path, or py for the launcher')
+    }
+
+    environment {
+        VENV_PYTHON = '.venv\\Scripts\\python.exe'
+    }
+
+    stages {
+        stage('Setup') {
+            steps {
+                bat 'if not exist reports mkdir reports'
+                script {
+                    if (params.PYTHON_EXE == 'py') {
+                        bat 'py -3.11 -m venv .venv'
+                    } else {
+                        bat '"%PYTHON_EXE%" -m venv .venv'
+                    }
+                }
+                bat '"%VENV_PYTHON%" --version'
+                bat '"%VENV_PYTHON%" -m pip --version'
+                bat '"%VENV_PYTHON%" -m pip install -r requirements.txt'
+            }
+        }
+        stage('Lint') {
+            steps {
+                bat '"%VENV_PYTHON%" -m flake8 app.py deploy.py tests'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat '"%VENV_PYTHON%" -m pytest -v --junitxml=reports/tests.xml'
+            }
+        }
+        stage('Coverage') {
+            steps {
+                bat '"%VENV_PYTHON%" -m coverage run -m pytest -v'
+                bat '"%VENV_PYTHON%" -m coverage report -m'
+                bat '"%VENV_PYTHON%" -m coverage xml -o coverage.xml'
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                bat '"%VENV_PYTHON%" -m bandit app.py deploy.py -f txt -o reports/bandit.txt'
+            }
+            post {
+                always {
+                    bat 'if exist reports\\bandit.txt type reports\\bandit.txt'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat '"%VENV_PYTHON%" deploy.py'
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'coverage.xml,reports/*',
+                             allowEmptyArchive: true
+        }
+        success {
+            archiveArtifacts artifacts: 'deployment/app.py,deployment/smoke-test.txt'
+            echo 'All stages passed, including the local deployment smoke test.'
+        }
+        failure {
+            echo 'Build failed. Check Console Output and available report artifacts.'
+        }
+    }
+}
