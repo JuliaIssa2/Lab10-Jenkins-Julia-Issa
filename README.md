@@ -14,7 +14,7 @@ unittest, pytest, flake8, coverage.py, Bandit, Git, and Jenkins.
 - `.coveragerc`: measures project source, excluding tests and generated copies.
 - `Jenkinsfile_Julia_Issa`: declarative Windows pipeline.
 - `report.md`: changes, verification results, and Jenkins execution status.
-- `submission.txt`: replace the marked placeholder after creating the repository.
+- `submission.txt`: verified GitHub repository URL for submission.
 - `.gitignore`: excludes environments, generated files, and common secrets.
 
 ## Run locally in PowerShell
@@ -65,36 +65,38 @@ the build. Report artifacts are archived even when a stage fails. Deployment
 artifacts are archived only after success. No extra workspace-cleanup or test
 report plugin is required. The workspace is retained for inspection.
 
-## Prepare GitHub
+## GitHub repository
 
-GitHub CLI was not found in this session. Create a repository named
-`Lab10-Jenkins-Julia-Issa` under `JuliaIssa2` on GitHub, with no initial README,
-license, or gitignore. Then run these commands from this folder:
+Repository: [Lab10-Jenkins-Julia-Issa](https://github.com/JuliaIssa2/Lab10-Jenkins-Julia-Issa)
 
-```powershell
-git branch -M main
-git add .gitignore .coveragerc app.py deploy.py tests/test_app.py requirements.txt Jenkinsfile_Julia_Issa README.md report.md submission.txt
-git commit -m "Complete Jenkins CI/CD lab"
-git remote add origin https://github.com/JuliaIssa2/Lab10-Jenkins-Julia-Issa.git
-git push -u origin main
-```
-
-Use Git's normal sign-in prompt; keep credentials out of project files. After
-verifying the repository opens on GitHub, put its actual URL alone in
-`submission.txt`, commit that change, and push it. The suggested URL above is
-not confirmation that a repository exists.
+Branch: `main`. The repository URL is recorded in `submission.txt`.
 
 In the repository, open **Settings > Collaborators > Add people** and invite
-`NourSN2004`, `HusseinMoukalled`, and `RanimTahmoush`. Verify each invitation is
-listed. No invitations have been sent by this project setup.
+`NourSN2004`, `HusseinMoukalled`, and `RanimTahmoush` if needed. These invitations
+have not yet been verified; check their status before considering them complete.
+
+## Verified Jenkins build
+
+Job `Python-CI-CD`, build **#3**, finished with **SUCCESS** on
+**November 21, 2026**, in **1 minute 27 seconds** using branch `main`.
+All six stages passed: Setup used Python 3.11.9, flake8 passed, all 6 tests
+passed, coverage was 100% for `app.py`, 93% for `deploy.py`, and 94% overall,
+Bandit found 0 security issues, and local deployment succeeded.
+
+The smoke test returned **PASS**, and the application printed
+`Hello, World from Julia Issa!`. Deployment was local to the Jenkins workspace;
+no remote server was used.
+
+The build archived `coverage.xml`, `reports/tests.xml`, `reports/bandit.txt`,
+`deployment/app.py`, and `deployment/smoke-test.txt`. See `report.md` for the
+stage results.
 
 ## Configure Jenkins
 
 1. Open `http://localhost:8080/` and sign in locally.
 2. Choose **New Item**, enter `Python-CI-CD`, choose **Pipeline**, and click **OK**.
 3. Under **Pipeline**, choose **Pipeline script from SCM**, then **Git**.
-4. Set the repository URL to your verified GitHub repository URL. For the
-   suggested repository it is
+4. Set the repository URL to
    `https://github.com/JuliaIssa2/Lab10-Jenkins-Julia-Issa.git`.
 5. Set the branch specifier to `*/main` and Script Path to
    `Jenkinsfile_Julia_Issa`. Save the job.
@@ -112,11 +114,7 @@ listed. No invitations have been sent by this project setup.
    Deploy all finish successfully and the build ends with `Finished: SUCCESS`.
 9. Inspect the archived `coverage.xml`, `reports/tests.xml`, `reports/bandit.txt`,
    `deployment/app.py`, and `deployment/smoke-test.txt`.
-10. Update `report.md` with the actual build number, result, and observed output,
-    then commit and push. Submit `submission.txt` as required by the lab.
-
-Jenkins API access returned HTTP 403 in this session. No authenticated Jenkins
-build or Jenkins declarative linter validation has been performed. Both remain
-**Pending Jenkins execution**. Local checks do not prove the Jenkins job passes.
+10. For future builds, update `report.md` with the actual results as needed.
+    Submit `submission.txt` as required by the lab.
 
 Pipeline reference: [Jenkins declarative syntax](https://www.jenkins.io/doc/book/pipeline/syntax/).

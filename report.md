@@ -54,18 +54,37 @@ incorrect smoke-test output. The same tests can run through pytest.
 
 ## Jenkins build results
 
-**Pending Jenkins execution** for Setup, Lint, Test, Coverage, Security Scan,
-and Deploy. Build number, console output, Jenkins syntax validation, and
-archived build artifacts have not yet been verified. The local Jenkins API
-returned HTTP 403 and no Jenkins credentials were requested or read.
+Jenkins job `Python-CI-CD` completed build **#3** on **November 21, 2026**
+with final status **SUCCESS**. The build took **1 minute 27 seconds** and used
+branch `main` from
+[Lab10-Jenkins-Julia-Issa](https://github.com/JuliaIssa2/Lab10-Jenkins-Julia-Issa).
 
-After configuring the SCM job and running it, record the actual build number,
-final result, test counts, coverage, Bandit findings, and deployment output
-here. A successful local run does not establish a successful Jenkins build.
+All six pipeline stages passed:
+
+| Stage | Verified result |
+| --- | --- |
+| Setup | Passed using Python 3.11.9 |
+| Lint | flake8 passed |
+| Test | 6 of 6 tests passed |
+| Coverage | `app.py` 100%, `deploy.py` 93%, overall 94% |
+| Security Scan | Bandit found 0 security issues |
+| Deploy | Local deployment succeeded and the smoke test returned PASS |
+
+The deployed application printed `Hello, World from Julia Issa!`. Deployment
+was local to the Jenkins workspace; it did not deploy to a remote server.
+
+The build archived these artifacts:
+
+- `coverage.xml`
+- `reports/tests.xml`
+- `reports/bandit.txt`
+- `deployment/app.py`
+- `deployment/smoke-test.txt`
 
 ## Submission status
 
-GitHub repository creation and collaborator invitations are pending.
-`submission.txt` contains a clearly marked placeholder until the actual
-repository URL is verified. The local repository uses branch `main` and has
-not been committed or pushed. The README includes the GitHub and Jenkins steps.
+The repository is available at
+https://github.com/JuliaIssa2/Lab10-Jenkins-Julia-Issa on branch `main`.
+`submission.txt` contains only this repository URL for submission.
+Collaborator invitations for `NourSN2004`, `HusseinMoukalled`, and
+`RanimTahmoush` have not yet been verified.

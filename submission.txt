@@ -1,2 +1,1 @@
-PENDING REPOSITORY CREATION: replace this line with the verified GitHub repository URL.
-Suggested repository: JuliaIssa2/Lab10-Jenkins-Julia-Issa
+https://github.com/JuliaIssa2/Lab10-Jenkins-Julia-Issa
