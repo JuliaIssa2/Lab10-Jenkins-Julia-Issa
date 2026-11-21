@@ -13,7 +13,7 @@ unittest, pytest, flake8, coverage.py, Bandit, Git, and Jenkins.
 - `requirements.txt`: pinned development dependencies.
 - `.coveragerc`: measures project source, excluding tests and generated copies.
 - `Jenkinsfile_Julia_Issa`: declarative Windows pipeline.
-- `report.md`: changes, verification results, and Jenkins execution status.
+- `Lab10_Julia_Issa_Final_Report.docx`: changes, verification results, and Jenkins execution status.
 - `submission.txt`: verified GitHub repository URL for submission.
 - `.gitignore`: excludes environments, generated files, and common secrets.
 
@@ -88,7 +88,7 @@ The smoke test returned **PASS**, and the application printed
 no remote server was used.
 
 The build archived `coverage.xml`, `reports/tests.xml`, `reports/bandit.txt`,
-`deployment/app.py`, and `deployment/smoke-test.txt`. See `report.md` for the
+`deployment/app.py`, and `deployment/smoke-test.txt`. See `Lab10_Julia_Issa_Final_Report.docx` for the
 stage results.
 
 ## Configure Jenkins
@@ -114,7 +114,7 @@ stage results.
    Deploy all finish successfully and the build ends with `Finished: SUCCESS`.
 9. Inspect the archived `coverage.xml`, `reports/tests.xml`, `reports/bandit.txt`,
    `deployment/app.py`, and `deployment/smoke-test.txt`.
-10. For future builds, update `report.md` with the actual results as needed.
+10. For future builds, update `Lab10_Julia_Issa_Final_Report.docx` with the actual results as needed.
     Submit `submission.txt` as required by the lab.
 
 Pipeline reference: [Jenkins declarative syntax](https://www.jenkins.io/doc/book/pipeline/syntax/).
